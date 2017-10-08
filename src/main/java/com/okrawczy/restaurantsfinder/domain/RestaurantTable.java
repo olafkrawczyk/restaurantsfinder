@@ -18,4 +18,23 @@ public class RestaurantTable {
     private Restaurant restaurant;
 
     private Integer seats;
+
+    public RestaurantTable() {
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
 }

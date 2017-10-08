@@ -32,4 +32,63 @@ public class Restaurant {
 
     @OneToMany
     private Collection<RestaurantTable> tables;
+
+    public Restaurant() {
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Collection<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Collection<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Cuisine getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(Cuisine cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public Collection<RestaurantTable> getTables() {
+        return tables;
+    }
+
+    public void setTables(Collection<RestaurantTable> tables) {
+        this.tables = tables;
+    }
 }

@@ -13,4 +13,15 @@ public class Client extends Person {
 
     @OneToMany(mappedBy = "client")
     private Collection<Reservation> reservations;
+
+    public Client() {
+    }
+
+    public Collection<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Collection<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }

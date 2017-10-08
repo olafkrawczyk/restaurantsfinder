@@ -13,4 +13,14 @@ public class Owner extends Person {
     @OneToMany(mappedBy = "owner")
     private Collection<Restaurant> restaurants;
 
+    public Owner() {
+    }
+
+    public Collection<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(Collection<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
 }

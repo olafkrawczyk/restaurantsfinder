@@ -6,6 +6,8 @@ import java.util.Date;
 /**
  * Created by Olaf on 2017-10-08.
  */
+
+@Entity
 public class Reservation {
 
     @Id
@@ -24,4 +26,39 @@ public class Reservation {
     private Restaurant restaurant;
 
     private Date date;
+
+    public Reservation() {
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
