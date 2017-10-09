@@ -16,6 +16,7 @@ public abstract class Person {
     private String firstName;
     private String lastName;
     private String emailAddress;
+    private String password;
     @OneToOne
     private Address address;
 
@@ -52,5 +53,13 @@ public abstract class Person {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

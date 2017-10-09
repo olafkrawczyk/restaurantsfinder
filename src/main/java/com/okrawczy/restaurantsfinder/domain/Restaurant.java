@@ -26,11 +26,14 @@ public class Restaurant {
 
     private String name;
     private String phoneNumber;
+    private String openHour;
+    private String closeHour;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private Cuisine cuisine;
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant")
     private Collection<RestaurantTable> tables;
 
     public Restaurant() {
@@ -90,5 +93,29 @@ public class Restaurant {
 
     public void setTables(Collection<RestaurantTable> tables) {
         this.tables = tables;
+    }
+
+    public String getCloseHour() {
+        return closeHour;
+    }
+
+    public void setCloseHour(String closeHour) {
+        this.closeHour = closeHour;
+    }
+
+    public String getOpenHour() {
+        return openHour;
+    }
+
+    public void setOpenHour(String openHour) {
+        this.openHour = openHour;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

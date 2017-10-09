@@ -15,7 +15,7 @@ public class Reservation {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private ReservationStatus reservationStatus;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -25,17 +25,21 @@ public class Reservation {
     @JoinColumn(name = "retaurant_id")
     private Restaurant restaurant;
 
-    private Date date;
+    @OneToOne
+    private RestaurantTable table;
+    private Date reservationDate;
+    private Date creationDate;
+    private int reservationHours = 1;
 
     public Reservation() {
     }
 
-    public Status getStatus() {
-        return status;
+    public ReservationStatus getReservationStatus() {
+        return reservationStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setReservationStatus(ReservationStatus reservationStatus) {
+        this.reservationStatus = reservationStatus;
     }
 
     public Client getClient() {
@@ -55,10 +59,34 @@ public class Reservation {
     }
 
     public Date getDate() {
-        return date;
+        return reservationDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.reservationDate = date;
+    }
+
+    public int getReservationHours() {
+        return reservationHours;
+    }
+
+    public void setReservationHours(int reservationHours) {
+        this.reservationHours = reservationHours;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public RestaurantTable getTable() {
+        return table;
+    }
+
+    public void setTable(RestaurantTable table) {
+        this.table = table;
     }
 }
