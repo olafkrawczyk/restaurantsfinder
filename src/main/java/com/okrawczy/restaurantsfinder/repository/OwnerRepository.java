@@ -9,4 +9,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource
 public interface OwnerRepository extends PagingAndSortingRepository<Owner, Long> {
+    Owner findByEmailAddressIgnoreCase(String emailAddress);
 }
