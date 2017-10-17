@@ -1,4 +1,4 @@
-package com.okrawczy.restaurantsfinder.service;
+package com.okrawczy.restaurantsfinder.repository;
 
 import com.okrawczy.restaurantsfinder.domain.RestaurantTable;
 import org.springframework.data.repository.PagingAndSortingRepository;

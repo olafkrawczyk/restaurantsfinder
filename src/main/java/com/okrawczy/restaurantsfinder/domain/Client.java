@@ -1,7 +1,6 @@
 package com.okrawczy.restaurantsfinder.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 /**
@@ -9,7 +8,27 @@ import java.util.Collection;
  */
 
 @Entity
-public class Client extends Person {
+public class Client {
+
+    @Id
+    @SequenceGenerator(name="client_generator", sequenceName="client_sequence", initialValue = 10)
+    @GeneratedValue(generator = "client_generator")
+    private Long id;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
+
+    @Column(nullable = false)
+    private String password;
+
+    @OneToOne
+    private Address address;
 
     @OneToMany(mappedBy = "client")
     private Collection<Reservation> reservations;
@@ -23,5 +42,58 @@ public class Client extends Person {
 
     public void setReservations(Collection<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", address=" + address +
+                ", reservations=" + reservations +
+                '}';
     }
 }

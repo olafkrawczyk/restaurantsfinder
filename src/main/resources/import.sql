@@ -2,10 +2,10 @@ insert into address (city, postal_code, street, street_number, id) values ('Wroc
 insert into address (city, postal_code, street, street_number, id) values ('Warszawa', '00-001', 'Rynek', '3', 2);
 insert into address (city, postal_code, street, street_number, id) values ('Katowice', '40-201', 'Rynek', '2', 3);
 
-insert into person (address_id, email_address, first_name, last_name, dtype, id) values (1 , 'john.doe@gmail.com', 'John', 'Doe', 'Owner', 1);
-insert into person (address_id, email_address, first_name, last_name, dtype, id) values (2 , 'jan.kowalski@gmail.com', 'Jan', 'Kowalski', 'Owner', 2);
+insert into owner (address_id, email_address, first_name, last_name, id, password) values (1 , 'john.doe@gmail.com', 'John', 'Doe', 1, 'password');
+insert into owner (address_id, email_address, first_name, last_name, id, password) values (2 , 'jan.kowalski@gmail.com', 'Jan', 'Kowalski', 2, 'password');
 
-insert into person (address_id, email_address, first_name, last_name, dtype, id) values (1 , 'michalina.kowalska@gmail.com', 'Michalina', 'Kowalska', 'Client', 3);
+insert into client (address_id, email_address, first_name, last_name, id, password) values (1 , 'michalina.kowalska@gmail.com', 'Michalina', 'Kowalska',  1, 'password');
 
 
 insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id) values (1, 'ITALIAN', 'Pastini', 1, '71 12345', 1);

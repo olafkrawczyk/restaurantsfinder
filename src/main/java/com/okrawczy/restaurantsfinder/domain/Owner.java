@@ -8,7 +8,27 @@ import java.util.Collection;
  */
 
 @Entity
-public class Owner extends Person {
+public class Owner {
+
+    @Id
+    @SequenceGenerator(name="owner_generator", sequenceName="owner_sequence", initialValue = 10)
+    @GeneratedValue(generator = "owner_generator")
+    private Long id;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
+
+    @Column(nullable = false)
+    private String password;
+
+    @OneToOne
+    private Address address;
 
     @OneToMany(mappedBy = "owner")
     private Collection<Restaurant> restaurants;
@@ -22,5 +42,58 @@ public class Owner extends Person {
 
     public void setRestaurants(Collection<Restaurant> restaurants) {
         this.restaurants = restaurants;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", address=" + address +
+                ", restaurants=" + restaurants +
+                '}';
     }
 }
