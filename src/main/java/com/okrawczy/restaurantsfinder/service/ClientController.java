@@ -2,6 +2,7 @@ package com.okrawczy.restaurantsfinder.service;
 
 import com.okrawczy.restaurantsfinder.domain.Client;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;
+import com.okrawczy.restaurantsfinder.service.requestwrapper.CredentialsWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,30 @@ public class ClientController {
 
     @CrossOrigin
     @PostMapping("/clients/new")
-    public ResponseEntity<?> createNewUser(@RequestBody Client aClient)
+    public ResponseEntity<?> createNewClient(@RequestBody Client aClient)
     {
-        System.out.println(aClient);
         if (!clientRepository.findByEmailAddress(aClient.getEmailAddress()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Client with given email address already exists");
         }
         clientRepository.save(aClient);
         return ResponseEntity.ok("Client created");
+    }
+
+    @CrossOrigin
+    @PostMapping("/clients/login")
+    public ResponseEntity<?> loginUser(@RequestBody CredentialsWrapper credentials ){
+        try {
+            Client client = clientRepository.findClientByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            if (!client.getPassword().equals(credentials.getPassword())){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for client " + client.getEmailAddress());
+            }
+            else {
+                return ResponseEntity.ok(client);
+            }
+        }
+        catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client with given email address not found");
+        }
     }
 
 }

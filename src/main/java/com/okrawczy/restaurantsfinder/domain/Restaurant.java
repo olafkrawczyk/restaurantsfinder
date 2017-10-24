@@ -10,8 +10,9 @@ import java.util.Collection;
 @Entity
 public class Restaurant {
 
+    @SequenceGenerator(name="restaurant_generator", sequenceName="restaurant_sequence", initialValue = 10)
+    @GeneratedValue(generator = "restaurant_generator")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne
@@ -29,12 +30,16 @@ public class Restaurant {
     private String openHour;
     private String closeHour;
     private String description;
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Cuisine cuisine;
 
     @OneToMany(mappedBy = "restaurant")
     private Collection<RestaurantTable> tables;
+
+    @OneToOne
+    private Menu menu;
 
     public Restaurant() {
     }
@@ -117,5 +122,21 @@ public class Restaurant {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 }

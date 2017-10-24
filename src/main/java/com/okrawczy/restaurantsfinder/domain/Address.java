@@ -1,9 +1,6 @@
 package com.okrawczy.restaurantsfinder.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Olaf on 2017-10-08.
@@ -12,13 +9,13 @@ import javax.persistence.Id;
 @Entity
 public class Address {
 
+    @SequenceGenerator(name="address_generator", sequenceName="address_sequence", initialValue = 10)
+    @GeneratedValue(generator = "address_generator")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String street;
     private String City;
     private String postalCode;
-    private String streetNumber;
 
     public Address() {
     }
@@ -47,11 +44,4 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public String getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
-    }
 }

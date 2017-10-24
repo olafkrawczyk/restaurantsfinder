@@ -1,6 +1,6 @@
-insert into address (city, postal_code, street, street_number, id) values ('Wroclaw', '50-363', 'Rynek', '6', 1);
-insert into address (city, postal_code, street, street_number, id) values ('Warszawa', '00-001', 'Rynek', '3', 2);
-insert into address (city, postal_code, street, street_number, id) values ('Katowice', '40-201', 'Rynek', '2', 3);
+insert into address (city, postal_code, street, id) values ('Wroclaw', '50-363', 'Rynek 6', 1);
+insert into address (city, postal_code, street, id) values ('Warszawa', '00-001', 'Rynek 3', 2);
+insert into address (city, postal_code, street, id) values ('Katowice', '40-201', 'Rynek 2', 3);
 
 insert into owner (address_id, email_address, first_name, last_name, id, password) values (1 , 'john.doe@gmail.com', 'John', 'Doe', 1, 'password');
 insert into owner (address_id, email_address, first_name, last_name, id, password) values (2 , 'jan.kowalski@gmail.com', 'Jan', 'Kowalski', 2, 'password');

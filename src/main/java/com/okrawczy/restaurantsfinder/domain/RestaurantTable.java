@@ -9,18 +9,28 @@ import javax.persistence.*;
 @Entity
 public class RestaurantTable {
 
+    @SequenceGenerator(name="table_generator", sequenceName="table_sequence", initialValue = 10)
+    @GeneratedValue(generator = "table_generator")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-
     private Integer seats;
 
     public RestaurantTable() {
     }
+    public String getRestaurantTableId() {
+        return restaurantTableId;
+    }
+
+    public void setRestaurantTableId(String restaurantTableId) {
+        this.restaurantTableId = restaurantTableId;
+    }
+
+    private String restaurantTableId;
+
 
     public Restaurant getRestaurant() {
         return restaurant;
