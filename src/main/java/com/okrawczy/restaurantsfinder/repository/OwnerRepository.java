@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Olaf on 2017-10-08.
  */
-@RepositoryRestResource
+
 public interface OwnerRepository extends PagingAndSortingRepository<Owner, Long> {
     Owner findByEmailAddressIgnoreCase(String emailAddress);
 

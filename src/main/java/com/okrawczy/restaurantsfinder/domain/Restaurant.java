@@ -1,5 +1,8 @@
 package com.okrawczy.restaurantsfinder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -13,6 +16,7 @@ public class Restaurant {
     @SequenceGenerator(name="restaurant_generator", sequenceName="restaurant_sequence", initialValue = 10)
     @GeneratedValue(generator = "restaurant_generator")
     @Id
+    @JsonIgnore
     private Long id;
 
     @OneToOne
@@ -20,6 +24,7 @@ public class Restaurant {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonManagedReference
     private Owner owner;
 
     @OneToMany(mappedBy = "restaurant")
@@ -42,6 +47,10 @@ public class Restaurant {
     private Menu menu;
 
     public Restaurant() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Address getAddress() {

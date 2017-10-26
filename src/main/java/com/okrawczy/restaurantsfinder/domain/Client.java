@@ -84,16 +84,4 @@ public class Client {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", password='" + password + '\'' +
-                ", address=" + address +
-                ", reservations=" + reservations +
-                '}';
-    }
 }

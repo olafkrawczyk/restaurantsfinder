@@ -1,5 +1,8 @@
 package com.okrawczy.restaurantsfinder.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -25,12 +28,14 @@ public class Owner {
     private String emailAddress;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @OneToOne
     private Address address;
 
     @OneToMany(mappedBy = "owner")
+    @JsonBackReference
     private Collection<Restaurant> restaurants;
 
     public Owner() {
@@ -82,18 +87,5 @@ public class Owner {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    @Override
-    public String toString() {
-        return "Owner{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", password='" + password + '\'' +
-                ", address=" + address +
-                ", restaurants=" + restaurants +
-                '}';
     }
 }

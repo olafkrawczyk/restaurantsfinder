@@ -1,19 +1,12 @@
 package com.okrawczy.restaurantsfinder.service;
 
-import com.okrawczy.restaurantsfinder.domain.Address;
-import com.okrawczy.restaurantsfinder.domain.Restaurant;
-import com.okrawczy.restaurantsfinder.domain.RestaurantTable;
-import com.okrawczy.restaurantsfinder.repository.AddressRepository;
-import com.okrawczy.restaurantsfinder.repository.OwnerRepository;
-import com.okrawczy.restaurantsfinder.repository.RestaurantRepository;
-import com.okrawczy.restaurantsfinder.repository.RestaurantTableRepository;
+import com.okrawczy.restaurantsfinder.domain.*;
+import com.okrawczy.restaurantsfinder.repository.*;
 import com.okrawczy.restaurantsfinder.tos.RestaurantTO;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Olaf on 2017-10-21.
@@ -21,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RestaurantController {
+
+    private static final Logger logger = Logger.getLogger(RestaurantController.class);
+
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -30,12 +26,17 @@ public class RestaurantController {
     private RestaurantTableRepository restaurantTableRepository;
     @Autowired
     private OwnerRepository ownerRepository;
+    @Autowired
+    private MenuRepository menuRepository;
+    @Autowired
+    private MenuItemRepository menuItemRepository;
 
     @CrossOrigin
     @PostMapping("/restaurants/new")
     public ResponseEntity<?> newRestaurant(@RequestBody RestaurantTO restaurantRequest) {
 
-        System.out.println(restaurantRequest);
+        logger.debug(restaurantRequest);
+
         Address address = restaurantRequest.getAddress();
         addressRepository.save(address);
 
@@ -60,6 +61,17 @@ public class RestaurantController {
             restaurantTableRepository.save(newTable);
         }
 
+        Menu menu = new Menu();
+        menu.setRestaurant(restaurant);
+        menuRepository.save(menu);
+        restaurant.setMenu(menu);
+
+        for(MenuItem menuItem: restaurantRequest.getMenuItems()) {
+            menuItem.setMenu(menu);
+            menuItemRepository.save(menuItem);
+        }
+
+        restaurantRepository.save(restaurant);
         return ResponseEntity.ok("Added");
     }
 }

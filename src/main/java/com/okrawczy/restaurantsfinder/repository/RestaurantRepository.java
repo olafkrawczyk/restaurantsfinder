@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Olaf on 2017-10-09.
  */
 
-@RepositoryRestResource
 public interface RestaurantRepository extends PagingAndSortingRepository<Restaurant, Long> {
     Restaurant findRestaurantById(Long id);
 }

@@ -2,6 +2,7 @@ package com.okrawczy.restaurantsfinder.tos;
 
 import com.okrawczy.restaurantsfinder.domain.Address;
 import com.okrawczy.restaurantsfinder.domain.Cuisine;
+import com.okrawczy.restaurantsfinder.domain.MenuItem;
 import com.okrawczy.restaurantsfinder.domain.RestaurantTable;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class RestaurantTO {
     private String email;
     private Address address;
     private List<RestaurantTable> tables;
+    private List<MenuItem> menuItems;
 
     public RestaurantTO() {
     }
@@ -105,6 +107,14 @@ public class RestaurantTO {
         this.tables = tables;
     }
 
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+
     @Override
     public String toString() {
         return "RestaurantTO{" +
@@ -118,6 +128,7 @@ public class RestaurantTO {
                 ", email='" + email + '\'' +
                 ", address=" + address +
                 ", tables=" + tables +
+                ", menuItems=" + menuItems +
                 '}';
     }
 }
