@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 public class RestaurantTO {
+    private long id = -1;
     private String name;
     private Cuisine cuisine;
     private String photo;
@@ -130,5 +131,13 @@ public class RestaurantTO {
                 ", tables=" + tables +
                 ", menuItems=" + menuItems +
                 '}';
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

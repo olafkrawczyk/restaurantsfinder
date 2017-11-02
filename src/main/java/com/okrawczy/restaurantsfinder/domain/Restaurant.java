@@ -1,5 +1,6 @@
 package com.okrawczy.restaurantsfinder.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -22,9 +23,9 @@ public class Restaurant {
     @OneToOne
     private Address address;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    @JsonManagedReference
     private Owner owner;
 
     @OneToMany(mappedBy = "restaurant")
@@ -36,6 +37,7 @@ public class Restaurant {
     private String closeHour;
     private String description;
     private String email;
+    private String photo;
 
     @Enumerated(EnumType.STRING)
     private Cuisine cuisine;
@@ -147,5 +149,13 @@ public class Restaurant {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

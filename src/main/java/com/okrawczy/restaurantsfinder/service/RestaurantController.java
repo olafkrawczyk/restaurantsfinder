@@ -2,11 +2,20 @@ package com.okrawczy.restaurantsfinder.service;
 
 import com.okrawczy.restaurantsfinder.domain.*;
 import com.okrawczy.restaurantsfinder.repository.*;
+import com.okrawczy.restaurantsfinder.service.requestwrapper.RestaurantSearchParameters;
+import com.okrawczy.restaurantsfinder.tos.RestaurantStubTO;
 import com.okrawczy.restaurantsfinder.tos.RestaurantTO;
+import com.okrawczy.restaurantsfinder.utils.converters.RestaurantTOConverter;
+import com.okrawczy.restaurantsfinder.utils.converters.RestaurantToStubConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Olaf on 2017-10-21.
@@ -17,6 +26,10 @@ public class RestaurantController {
 
     private static final Logger logger = Logger.getLogger(RestaurantController.class);
 
+    @Autowired
+    private RestaurantTOConverter restaurantTOConverter;
+    @Autowired
+    private RestaurantToStubConverter restaurantToStubConverter;
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -73,5 +86,22 @@ public class RestaurantController {
 
         restaurantRepository.save(restaurant);
         return ResponseEntity.ok("Added");
+    }
+
+    @CrossOrigin
+    @GetMapping("/restaurants/{id}")
+    public ResponseEntity<?> getRestaurant(@PathVariable(value = "id") long id) {
+        RestaurantTO restaurant = this.restaurantTOConverter.convertToTO(this.restaurantRepository.findRestaurantById(id));
+
+        return ResponseEntity.ok(restaurant);
+    }
+
+    @CrossOrigin
+    @PostMapping("/restaurants/findByParameters")
+    public ResponseEntity<?> findByParameters(@RequestBody RestaurantSearchParameters searchParams) {
+        logger.info(searchParams);
+        List<RestaurantStubTO> results = this.restaurantRepository.findByAddress_CityIgnoreCase(searchParams.getCity())
+                .stream().map(e -> restaurantToStubConverter.convertToStub(e)).collect(Collectors.toList());
+        return ResponseEntity.ok(results);
     }
 }

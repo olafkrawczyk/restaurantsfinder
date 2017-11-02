@@ -17,6 +17,8 @@ public class RestaurantToStubConverter implements DomainStubConverter<Restaurant
         RestaurantStubTO stub = new RestaurantStubTO();
         stub.setId(entity.getId());
         stub.setName(entity.getName());
+        stub.setDescription(entity.getDescription());
+        stub.setImageURL(entity.getPhoto());
 
         return stub;
     }

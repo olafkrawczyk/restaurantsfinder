@@ -5,6 +5,7 @@ import com.okrawczy.restaurantsfinder.domain.Owner;
 import com.okrawczy.restaurantsfinder.domain.Restaurant;
 import com.okrawczy.restaurantsfinder.repository.OwnerRepository;
 import com.okrawczy.restaurantsfinder.service.requestwrapper.CredentialsWrapper;
+import com.okrawczy.restaurantsfinder.tos.OwnerTO;
 import com.okrawczy.restaurantsfinder.tos.RestaurantStubTO;
 import com.okrawczy.restaurantsfinder.utils.converters.RestaurantToStubConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,16 @@ public class OwnerController {
     public ResponseEntity<?> loginOwner(@RequestBody CredentialsWrapper credentials ){
         try {
             Owner owner = ownerRepository.findByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            OwnerTO ownerTO = new OwnerTO();
+            ownerTO.setId(owner.getId());
+            ownerTO.setFirstName(owner.getFirstName());
+            ownerTO.setLastName(owner.getLastName());
+            ownerTO.setEmailAddress(owner.getEmailAddress());
             if (!owner.getPassword().equals(credentials.getPassword())){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for owner " + owner.getEmailAddress());
             }
             else {
-                return ResponseEntity.ok(owner);
+                return ResponseEntity.ok(ownerTO);
             }
         }
         catch (NullPointerException e) {

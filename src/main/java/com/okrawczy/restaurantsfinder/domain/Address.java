@@ -14,7 +14,7 @@ public class Address {
     @Id
     private Long id;
     private String street;
-    private String City;
+    private String city;
     private String postalCode;
 
     public Address() {
@@ -29,11 +29,11 @@ public class Address {
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getPostalCode() {

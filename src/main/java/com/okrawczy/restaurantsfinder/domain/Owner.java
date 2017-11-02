@@ -1,7 +1,9 @@
 package com.okrawczy.restaurantsfinder.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -16,6 +18,7 @@ public class Owner {
     @Id
     @SequenceGenerator(name="owner_generator", sequenceName="owner_sequence", initialValue = 10)
     @GeneratedValue(generator = "owner_generator")
+    @JsonIgnore
     private Long id;
 
     @Column(nullable = false)
@@ -35,7 +38,6 @@ public class Owner {
     private Address address;
 
     @OneToMany(mappedBy = "owner")
-    @JsonBackReference
     private Collection<Restaurant> restaurants;
 
     public Owner() {
@@ -87,5 +89,9 @@ public class Owner {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
