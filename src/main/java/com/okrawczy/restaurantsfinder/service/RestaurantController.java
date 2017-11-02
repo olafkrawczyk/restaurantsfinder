@@ -100,8 +100,8 @@ public class RestaurantController {
     @PostMapping("/restaurants/findByParameters")
     public ResponseEntity<?> findByParameters(@RequestBody RestaurantSearchParameters searchParams) {
         logger.info(searchParams);
-        List<RestaurantStubTO> results = this.restaurantRepository.findByAddress_CityIgnoreCase(searchParams.getCity())
-                .stream().map(e -> restaurantToStubConverter.convertToStub(e)).collect(Collectors.toList());
+        List<RestaurantTO> results = this.restaurantRepository.findByAddress_CityIgnoreCase(searchParams.getCity())
+                .stream().map(e -> restaurantTOConverter.convertToTO(e)).collect(Collectors.toList());
         return ResponseEntity.ok(results);
     }
 }
