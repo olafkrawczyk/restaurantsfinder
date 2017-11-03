@@ -35,6 +35,8 @@ public class Restaurant {
     private String phoneNumber;
     private String openHour;
     private String closeHour;
+
+    @Lob
     private String description;
     private String email;
     private String photo;
