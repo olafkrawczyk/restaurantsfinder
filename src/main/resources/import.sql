@@ -12,14 +12,14 @@ insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id, d
 insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id) values (2, 'FUSION', 'Seven', 1, '22 12345', 2);
 insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id) values (3, 'THAI', 'Woo Thai', 2, '22 12345', 3);
 
-insert into restaurant_table (restaurant_id, seats, id) values (1 , 2, 1);
-insert into restaurant_table (restaurant_id, seats, id) values (1 , 2, 2);
+insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (1 , 2, 1, 'A1');
+insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (1 , 2, 2, 'A2');
 
-insert into restaurant_table (restaurant_id, seats, id) values (2 , 2, 3);
-insert into restaurant_table (restaurant_id, seats, id) values (2 , 2, 4);
+insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (2 , 2, 3, 'B1');
+insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (2 , 2, 4, 'B2');
 
-insert into restaurant_table (restaurant_id, seats, id) values (3 , 4, 5);
-insert into restaurant_table (restaurant_id, seats, id) values (3 , 4, 6);
+insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (3 , 4, 5, 'C1');
+insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (3 , 4, 6, 'C2');
 
 insert into menu(id) values (1);
 insert into menu_item(id, description, dish_name, price, menu_id) values (1,'Smoked salmon with bitroot', 'Smoked salmon', 22.0, 1);
@@ -28,3 +28,5 @@ insert into menu_item(id, description, dish_name, price, menu_id) values (3,'Spa
 insert into menu_item(id, description, dish_name, price, menu_id) values (4,'Pulled pork with sweet-sour paprika', 'Pulled pork', 18.0, 1);
 
 update restaurant set menu_id = 1 where id = 1;
+
+insert into reservation(ID,	CREATION_DATE,	RESERVATION_DATE, RESERVATION_HOURS,	RESERVATION_STATUS,	CLIENT_ID,	RETAURANT_ID, TABLE_ID) values (1, '2017-11-01', TO_TIMESTAMP('2017-11-06 12:00','yyyy-MM-dd hh:mm'), 1, 'ACCEPTED', 1, 1, 1);

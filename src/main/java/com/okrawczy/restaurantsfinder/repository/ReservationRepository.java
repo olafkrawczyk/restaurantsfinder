@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by Olaf on 2017-10-09.
  */
@@ -12,4 +15,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface ReservationRepository extends PagingAndSortingRepository<Reservation, Long> {
 
+    List<Reservation> findByReservationDateAfterAndReservationDateBeforeAndRestaurant_IdAndTable_Seats(Date afterDate, Date beforeDate, Long restaurantId, int tableSeats);
 }

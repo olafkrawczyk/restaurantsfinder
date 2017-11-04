@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Olaf on 2017-10-08.

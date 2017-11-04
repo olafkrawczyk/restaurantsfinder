@@ -1,10 +1,9 @@
-package com.okrawczy.restaurantsfinder.service;
+package com.okrawczy.restaurantsfinder.controller;
 
-import com.okrawczy.restaurantsfinder.domain.Client;
 import com.okrawczy.restaurantsfinder.domain.Owner;
 import com.okrawczy.restaurantsfinder.domain.Restaurant;
 import com.okrawczy.restaurantsfinder.repository.OwnerRepository;
-import com.okrawczy.restaurantsfinder.service.requestwrapper.CredentialsWrapper;
+import com.okrawczy.restaurantsfinder.controller.requestwrapper.CredentialsWrapper;
 import com.okrawczy.restaurantsfinder.tos.OwnerTO;
 import com.okrawczy.restaurantsfinder.tos.RestaurantStubTO;
 import com.okrawczy.restaurantsfinder.utils.converters.RestaurantToStubConverter;

@@ -1,4 +1,4 @@
-package com.okrawczy.restaurantsfinder.service;
+package com.okrawczy.restaurantsfinder.controller;
 
 import com.okrawczy.restaurantsfinder.domain.Client;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;

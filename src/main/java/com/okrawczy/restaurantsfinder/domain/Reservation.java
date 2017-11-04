@@ -31,7 +31,13 @@ public class Reservation {
 
     @OneToOne
     private RestaurantTable table;
+
+    @Column(columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date reservationDate;
+
+    @Column(columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     private int reservationHours = 1;
 

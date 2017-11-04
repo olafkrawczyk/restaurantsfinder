@@ -1,8 +1,8 @@
-package com.okrawczy.restaurantsfinder.service;
+package com.okrawczy.restaurantsfinder.controller;
 
 import com.okrawczy.restaurantsfinder.domain.Client;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;
-import com.okrawczy.restaurantsfinder.service.requestwrapper.CredentialsWrapper;
+import com.okrawczy.restaurantsfinder.controller.requestwrapper.CredentialsWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

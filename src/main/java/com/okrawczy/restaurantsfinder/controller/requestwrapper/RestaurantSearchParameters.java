@@ -1,4 +1,4 @@
-package com.okrawczy.restaurantsfinder.service.requestwrapper;
+package com.okrawczy.restaurantsfinder.controller.requestwrapper;
 
 /**
  * Created by Olaf on 2017-11-02.
