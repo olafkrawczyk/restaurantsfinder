@@ -4,6 +4,9 @@ import com.okrawczy.restaurantsfinder.domain.*;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;
 import com.okrawczy.restaurantsfinder.repository.ReservationRepository;
 import com.okrawczy.restaurantsfinder.repository.RestaurantRepository;
+import com.okrawczy.restaurantsfinder.service.RestaurantTableService;
+import com.okrawczy.restaurantsfinder.tos.ReservationRequest;
+import com.okrawczy.restaurantsfinder.tos.RestaurantTableTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -12,8 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Olaf on 2017-10-09.
@@ -30,6 +37,9 @@ public class ReservationController {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private RestaurantTableService restaurantTableService;
 
     @PostMapping(value = "/reservations/addReservation")
     public ResponseEntity<?> addReservation(@RequestParam(value = "client_id") Long client_id,
@@ -58,4 +68,24 @@ public class ReservationController {
         return ResponseEntity.ok(client_id + " " + restaurant_id + " " + reservationDate + " ELO XD");
     }
 
+
+    @CrossOrigin
+    @GetMapping("/reservations/availableSlots")
+    public ResponseEntity<?> getAvailableReservations(@RequestParam(value = "date") String reservationDateISO,
+                                                      @RequestParam(value = "restaurantId") long restaurantId,
+                                                      @RequestParam(value = "seats") int seats) {
+
+        Date reservationDate = getDateFromISO(reservationDateISO);
+        List<RestaurantTableTO> availableTables = restaurantTableService.getFreeTablesTOs(restaurantId, seats, reservationDate);
+
+        List<ReservationRequest> requests = availableTables.stream().map(p -> new ReservationRequest(p, reservationDate)).collect(Collectors.toList());
+
+        return ResponseEntity.ok(requests);
+    }
+
+    private static Date getDateFromISO(String dateISO) {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+        TemporalAccessor accessor = timeFormatter.parse(dateISO);
+        return Date.from(Instant.from(accessor));
+    }
 }
