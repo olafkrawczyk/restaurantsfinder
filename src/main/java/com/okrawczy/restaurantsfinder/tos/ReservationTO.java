@@ -12,7 +12,7 @@ public class ReservationTO {
     private Long id;
     private ReservationStatus status;
     private ClientTO client;
-    private RestaurantTO restaurant;
+    private RestaurantStubTO restaurant;
     private Date reservationDate;
     private Date creationDate;
 
@@ -40,11 +40,11 @@ public class ReservationTO {
         this.client = client;
     }
 
-    public RestaurantTO getRestaurant() {
+    public RestaurantStubTO getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(RestaurantTO restaurant) {
+    public void setRestaurant(RestaurantStubTO restaurant) {
         this.restaurant = restaurant;
     }
 

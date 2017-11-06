@@ -8,7 +8,9 @@ import com.okrawczy.restaurantsfinder.repository.RestaurantRepository;
 import com.okrawczy.restaurantsfinder.repository.RestaurantTableRepository;
 import com.okrawczy.restaurantsfinder.service.RestaurantTableService;
 import com.okrawczy.restaurantsfinder.tos.ReservationRequest;
+import com.okrawczy.restaurantsfinder.tos.ReservationTO;
 import com.okrawczy.restaurantsfinder.tos.RestaurantTableTO;
+import com.okrawczy.restaurantsfinder.utils.converters.ReservationTOConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -44,6 +46,9 @@ public class ReservationController {
 
     @Autowired
     private RestaurantTableService restaurantTableService;
+
+    @Autowired
+    private ReservationTOConverter reservationTOConverter;
 
     @CrossOrigin
     @PostMapping("/reservations/makeReservation")
@@ -87,8 +92,9 @@ public class ReservationController {
     public ResponseEntity<?> getPendingReservationsByRestaurantId(@PathVariable(value = "id") long id) {
 
         List<Reservation> pending = reservationRepository.findByReservationStatusAndRestaurant_Id(ReservationStatus.PENDING, id);
+        List<ReservationTO> result = pending.stream().map(p -> reservationTOConverter.convertToTO(p)).collect(Collectors.toList());
 
-        return ResponseEntity.ok(pending);
+        return ResponseEntity.ok(result);
     }
 
 
