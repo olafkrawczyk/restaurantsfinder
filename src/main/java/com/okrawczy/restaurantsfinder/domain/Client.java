@@ -30,6 +30,9 @@ public class Client {
     @OneToOne
     private Address address;
 
+    @Column
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "client")
     private Collection<Reservation> reservations;
 
@@ -84,4 +87,11 @@ public class Client {
         this.address = address;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

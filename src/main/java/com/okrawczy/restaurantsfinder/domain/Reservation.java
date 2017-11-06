@@ -103,4 +103,8 @@ public class Reservation {
     public boolean isReserved(){
         return reservationStatus.equals(ReservationStatus.ACCEPTED) || reservationStatus.equals(ReservationStatus.PENDING);
     }
+
+    public Long getId() {
+        return id;
+    }
 }
