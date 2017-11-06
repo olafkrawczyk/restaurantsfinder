@@ -5,10 +5,13 @@ import com.okrawczy.restaurantsfinder.tos.ClientTO;
 import com.okrawczy.restaurantsfinder.tos.ReservationTO;
 import com.okrawczy.restaurantsfinder.tos.RestaurantTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Olaf on 2017-11-06.
  */
+
+@Component
 public class ReservationTOConverter implements DomainTOConverter<Reservation, ReservationTO>{
 
     @Autowired
