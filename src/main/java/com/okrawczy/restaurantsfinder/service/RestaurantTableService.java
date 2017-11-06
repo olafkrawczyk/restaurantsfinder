@@ -1,6 +1,7 @@
 package com.okrawczy.restaurantsfinder.service;
 
 import com.okrawczy.restaurantsfinder.domain.Reservation;
+import com.okrawczy.restaurantsfinder.domain.ReservationStatus;
 import com.okrawczy.restaurantsfinder.domain.RestaurantTable;
 import com.okrawczy.restaurantsfinder.repository.ReservationRepository;
 import com.okrawczy.restaurantsfinder.repository.RestaurantTableRepository;
@@ -59,7 +60,7 @@ public class RestaurantTableService {
                 findByReservationDateAfterAndReservationDateBeforeAndRestaurant_IdAndTable_Seats(dateOpen, dateClose, restaurantId, seats);
 
         List<RestaurantTable> restaurantTables = this.restaurantTableRepository.findByRestaurant_IdAndSeats(restaurantId, seats);
-        List<RestaurantTable> reservedTables = reservations.stream().map(Reservation::getTable).collect(Collectors.toList());
+        List<RestaurantTable> reservedTables = reservations.stream().filter(Reservation::isReserved).map(Reservation::getTable).collect(Collectors.toList());
 
         restaurantTables.removeAll(reservedTables);
 

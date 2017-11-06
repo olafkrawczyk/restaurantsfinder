@@ -14,5 +14,6 @@ import java.util.List;
 public interface RestaurantTableRepository extends PagingAndSortingRepository<RestaurantTable, Long> {
 
     List<RestaurantTable> findByRestaurant_IdAndSeats(Long restaurantId, int seats);
+    RestaurantTable findTableById(Long tableId);
 
 }

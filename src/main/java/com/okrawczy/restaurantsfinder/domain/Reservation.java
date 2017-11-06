@@ -68,11 +68,11 @@ public class Reservation {
         this.restaurant = restaurant;
     }
 
-    public Date getDate() {
+    public Date getReservationDate() {
         return reservationDate;
     }
 
-    public void setDate(Date date) {
+    public void setReservationDate(Date date) {
         this.reservationDate = date;
     }
 
@@ -98,5 +98,9 @@ public class Reservation {
 
     public void setTable(RestaurantTable table) {
         this.table = table;
+    }
+
+    public boolean isReserved(){
+        return reservationStatus.equals(ReservationStatus.ACCEPTED) || reservationStatus.equals(ReservationStatus.PENDING);
     }
 }

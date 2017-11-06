@@ -1,6 +1,7 @@
 package com.okrawczy.restaurantsfinder.repository;
 
 import com.okrawczy.restaurantsfinder.domain.Reservation;
+import com.okrawczy.restaurantsfinder.domain.ReservationStatus;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -16,4 +17,5 @@ import java.util.List;
 public interface ReservationRepository extends PagingAndSortingRepository<Reservation, Long> {
 
     List<Reservation> findByReservationDateAfterAndReservationDateBeforeAndRestaurant_IdAndTable_Seats(Date afterDate, Date beforeDate, Long restaurantId, int tableSeats);
+    List<Reservation> findByReservationStatusAndRestaurant_Id(ReservationStatus status, Long restaurantId);
 }

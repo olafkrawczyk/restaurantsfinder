@@ -1,9 +1,11 @@
 package com.okrawczy.restaurantsfinder.controller;
 
+import com.okrawczy.restaurantsfinder.controller.requestwrapper.ReservationRequestWrapper;
 import com.okrawczy.restaurantsfinder.domain.*;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;
 import com.okrawczy.restaurantsfinder.repository.ReservationRepository;
 import com.okrawczy.restaurantsfinder.repository.RestaurantRepository;
+import com.okrawczy.restaurantsfinder.repository.RestaurantTableRepository;
 import com.okrawczy.restaurantsfinder.service.RestaurantTableService;
 import com.okrawczy.restaurantsfinder.tos.ReservationRequest;
 import com.okrawczy.restaurantsfinder.tos.RestaurantTableTO;
@@ -37,37 +39,34 @@ public class ReservationController {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private RestaurantTableRepository restaurantTableRepository;
 
     @Autowired
     private RestaurantTableService restaurantTableService;
 
-    @PostMapping(value = "/reservations/addReservation")
-    public ResponseEntity<?> addReservation(@RequestParam(value = "client_id") Long client_id,
-                                     @RequestParam(value = "restaurant_id") Long restaurant_id,
-                                     @RequestParam(value = "date") String date,
-                                     @RequestParam(value = "reservationStatus")ReservationStatus reservationStatus) {
+    @CrossOrigin
+    @PostMapping("/reservations/makeReservation")
+    public ResponseEntity<?> makeReservation(@RequestBody ReservationRequestWrapper request) {
 
-        //TODO sprawdzić działanie konwersji
-
-        Date reservationDate = new Date();
-        Date creationDate = new Date();
 
         Reservation reservation = new Reservation();
-        Client client = this.clientRepository.findClientById(client_id);
-        Restaurant restaurant = this.restaurantRepository.findRestaurantById(restaurant_id);
+        Client client = clientRepository.findClientByEmailAddressIgnoreCase(request.getClientEmailAddress());
+        Restaurant restaurant = restaurantRepository.findRestaurantById(request.getRestaurantId());
+        Date reservationDate = getDateFromISO(request.getReservationDateISO());
+        RestaurantTable table = restaurantTableRepository.findTableById(request.getTableId());
+
+        reservation.setCreationDate(new Date());
         reservation.setClient(client);
         reservation.setRestaurant(restaurant);
-        reservation.setReservationStatus(reservationStatus);
-        reservation.setDate(reservationDate);
-        reservation.setCreationDate(creationDate);
+        reservation.setReservationStatus(ReservationStatus.PENDING);
+        reservation.setReservationDate(reservationDate);
+        reservation.setTable(table);
 
         this.reservationRepository.save(reservation);
-        System.out.println("----- DATA: data");
 
-
-        return ResponseEntity.ok(client_id + " " + restaurant_id + " " + reservationDate + " ELO XD");
+        return ResponseEntity.ok("Reserved");
     }
-
 
     @CrossOrigin
     @GetMapping("/reservations/availableSlots")
@@ -82,6 +81,16 @@ public class ReservationController {
 
         return ResponseEntity.ok(requests);
     }
+
+    @CrossOrigin
+    @GetMapping("/reservations/pendingReservations/{id}")
+    public ResponseEntity<?> getPendingReservationsByRestaurantId(@PathVariable(value = "id") long id) {
+
+        List<Reservation> pending = reservationRepository.findByReservationStatusAndRestaurant_Id(ReservationStatus.PENDING, id);
+
+        return ResponseEntity.ok(pending);
+    }
+
 
     private static Date getDateFromISO(String dateISO) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
