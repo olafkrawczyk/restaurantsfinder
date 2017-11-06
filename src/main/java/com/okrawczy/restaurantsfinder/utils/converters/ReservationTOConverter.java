@@ -21,6 +21,9 @@ public class ReservationTOConverter implements DomainTOConverter<Reservation, Re
     @Autowired
     private ClientTOConverter clientTOConverter;
 
+    @Autowired
+    private RestaurantTableToTOConverter restaurantTableToTOConverter;
+
 
     @Override
     public ReservationTO convertToTO(Reservation entity) {
@@ -30,10 +33,12 @@ public class ReservationTOConverter implements DomainTOConverter<Reservation, Re
         ClientTO clientTO = clientTOConverter.convertToTO(entity.getClient());
 
         result.setId(entity.getId());
+        result.setStatus(entity.getReservationStatus());
         result.setReservationDate(entity.getReservationDate());
         result.setCreationDate(entity.getReservationDate());
         result.setClient(clientTO);
         result.setRestaurant(restaurantTO);
+        result.setRestaurantTableTO(restaurantTableToTOConverter.convertToTO(entity.getTable()));
 
         return result;
     }

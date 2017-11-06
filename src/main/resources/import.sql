@@ -29,4 +29,4 @@ insert into menu_item(id, description, dish_name, price, menu_id) values (4,'Pul
 
 update restaurant set menu_id = 1 where id = 1;
 
-insert into reservation(ID,	CREATION_DATE,	RESERVATION_DATE, RESERVATION_HOURS,	RESERVATION_STATUS,	CLIENT_ID,	RETAURANT_ID, TABLE_ID) values (1, '2017-11-01', '2017-11-06 12:00:00', 1, 'ACCEPTED', 1, 1, 1);
+insert into reservation(ID,	CREATION_DATE,	RESERVATION_DATE, RESERVATION_HOURS,	RESERVATION_STATUS,	CLIENT_ID,	RETAURANT_ID, TABLE_ID) values (1, '2017-11-01', '2017-11-06 12:00:00', 1, 'PENDING', 1, 1, 1);

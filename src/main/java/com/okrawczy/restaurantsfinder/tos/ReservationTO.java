@@ -15,6 +15,7 @@ public class ReservationTO {
     private RestaurantStubTO restaurant;
     private Date reservationDate;
     private Date creationDate;
+    private RestaurantTableTO restaurantTableTO;
 
     public Long getId() {
         return id;
@@ -62,5 +63,13 @@ public class ReservationTO {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public RestaurantTableTO getRestaurantTableTO() {
+        return restaurantTableTO;
+    }
+
+    public void setRestaurantTableTO(RestaurantTableTO restaurantTableTO) {
+        this.restaurantTableTO = restaurantTableTO;
     }
 }
