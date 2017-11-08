@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -97,6 +98,42 @@ public class ReservationController {
         return ResponseEntity.ok(result);
     }
 
+    @CrossOrigin
+    @PostMapping("/reservations/accept")
+    public ResponseEntity<?> acceptReservation(@RequestParam(value = "reservationId") Long reservationId) {
+        Reservation reservation = this.reservationRepository.findReservationById(reservationId);
+
+        if (checkIfAbleToChange(reservation)) return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("Reservation [" + reservation.getId() + "] status: "
+                        + reservation.getReservationStatus() + " cannot be changed");
+
+        reservation.setReservationStatus(ReservationStatus.ACCEPTED);
+        reservationRepository.save(reservation);
+
+        logger.info("Reservation ["+reservationId+"] accepted");
+
+        return ResponseEntity.ok("Reservation "+ reservationId + " accepted");
+    }
+
+    @CrossOrigin
+    @PostMapping("/reservations/reject")
+    public ResponseEntity<?> rejectReservation(@RequestParam(value = "reservationId") Long reservationId) {
+        Reservation reservation = this.reservationRepository.findReservationById(reservationId);
+
+        if (checkIfAbleToChange(reservation)) return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("Reservation Status: " + reservation.getReservationStatus() + " cannot be changed");
+
+        reservation.setReservationStatus(ReservationStatus.REJECTED);
+        reservationRepository.save(reservation);
+
+        logger.info("Reservation ["+reservationId+"] rejected");
+
+        return ResponseEntity.ok("Reservation "+ reservationId + " rejected");
+    }
+
+    private boolean checkIfAbleToChange(Reservation reservation) {
+        return !reservation.getReservationStatus().equals(ReservationStatus.PENDING);
+    }
 
     private static Date getDateFromISO(String dateISO) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
