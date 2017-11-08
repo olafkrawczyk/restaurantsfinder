@@ -15,6 +15,7 @@ public class ClientTOConverter implements DomainTOConverter<Client, ClientTO> {
     public ClientTO convertToTO(Client entity) {
 
         ClientTO result = new ClientTO();
+        result.setId(entity.getId());
         result.setFirstName(entity.getFirstName());
         result.setLastName(entity.getLastName());
         result.setEmailAddress(entity.getEmailAddress());

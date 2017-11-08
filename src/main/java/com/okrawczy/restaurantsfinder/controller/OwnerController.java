@@ -7,6 +7,7 @@ import com.okrawczy.restaurantsfinder.controller.requestwrapper.CredentialsWrapp
 import com.okrawczy.restaurantsfinder.tos.OwnerTO;
 import com.okrawczy.restaurantsfinder.tos.RestaurantStubTO;
 import com.okrawczy.restaurantsfinder.utils.converters.RestaurantToStubConverter;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 @RestController
 public class OwnerController {
 
+    private static final Logger logger = Logger.getLogger(OwnerController.class);
+
     @Autowired
     private OwnerRepository ownerRepository;
 
@@ -36,6 +39,7 @@ public class OwnerController {
         if (!ownerRepository.findByEmailAddress(aOwner.getEmailAddress()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Owner with given email address already exists");
         }
+        logger.info(aOwner);
         ownerRepository.save(aOwner);
         return ResponseEntity.ok("Owner created");
     }

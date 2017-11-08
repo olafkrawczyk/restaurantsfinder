@@ -31,7 +31,6 @@ public class Owner {
     private String emailAddress;
 
     @Column(nullable = false)
-    @JsonIgnore
     private String password;
 
     @OneToOne

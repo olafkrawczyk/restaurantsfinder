@@ -94,4 +94,8 @@ public class Client {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

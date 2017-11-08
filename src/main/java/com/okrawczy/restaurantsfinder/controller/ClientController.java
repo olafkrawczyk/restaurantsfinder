@@ -3,6 +3,8 @@ package com.okrawczy.restaurantsfinder.controller;
 import com.okrawczy.restaurantsfinder.domain.Client;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;
 import com.okrawczy.restaurantsfinder.controller.requestwrapper.CredentialsWrapper;
+import com.okrawczy.restaurantsfinder.tos.ClientTO;
+import com.okrawczy.restaurantsfinder.utils.converters.ClientTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class ClientController {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private ClientTOConverter clientTOConverter;
 
     @CrossOrigin
     @PostMapping("/clients/new")
@@ -34,11 +39,12 @@ public class ClientController {
     public ResponseEntity<?> loginUser(@RequestBody CredentialsWrapper credentials ){
         try {
             Client client = clientRepository.findClientByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            ClientTO clientTo = clientTOConverter.convertToTO(client);
             if (!client.getPassword().equals(credentials.getPassword())){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for client " + client.getEmailAddress());
             }
             else {
-                return ResponseEntity.ok(client);
+                return ResponseEntity.ok(clientTo);
             }
         }
         catch (NullPointerException e) {

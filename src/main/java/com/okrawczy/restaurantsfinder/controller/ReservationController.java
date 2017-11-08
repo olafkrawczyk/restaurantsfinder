@@ -13,13 +13,10 @@ import com.okrawczy.restaurantsfinder.tos.RestaurantTableTO;
 import com.okrawczy.restaurantsfinder.utils.converters.ReservationTOConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -129,6 +126,35 @@ public class ReservationController {
         logger.info("Reservation ["+reservationId+"] rejected");
 
         return ResponseEntity.ok("Reservation "+ reservationId + " rejected");
+    }
+
+    @CrossOrigin
+    @PostMapping("/reservations/cancel")
+    public ResponseEntity<?> cancelReservation(@RequestParam(value = "reservationId") Long reservationId){
+        Reservation reservation = this.reservationRepository.findReservationById(reservationId);
+
+        if (reservation.getReservationStatus().equals(ReservationStatus.OBSOLETE) ||
+                reservation.getReservationStatus().equals(ReservationStatus.CANCELED) ||
+                reservation.getReservationStatus().equals(ReservationStatus.REJECTED)) return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("Reservation Status: " + reservation.getReservationStatus() + " cannot be changed");
+
+        reservation.setReservationStatus(ReservationStatus.CANCELED);
+        reservationRepository.save(reservation);
+
+        logger.info("Reservation ["+reservationId+"] cancelled");
+
+        return ResponseEntity.ok("Reservation "+ reservationId + " cancelled");
+    }
+
+    @CrossOrigin
+    @GetMapping("/reservations/client/{id}")
+    public ResponseEntity<?> getUserReservations(@PathVariable("id") long id) {
+        List<Reservation> userReservations = this.reservationRepository.findReservationsByClientId(id);
+        List<ReservationTO> reservations = userReservations.stream()
+                .map(e->reservationTOConverter.convertToTO(e))
+                .collect(Collectors.toList());
+
+        return  ResponseEntity.ok(reservations);
     }
 
     private boolean checkIfAbleToChange(Reservation reservation) {
