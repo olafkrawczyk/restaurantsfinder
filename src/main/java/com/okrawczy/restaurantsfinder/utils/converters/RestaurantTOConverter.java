@@ -29,6 +29,7 @@ public class RestaurantTOConverter implements DomainTOConverter<Restaurant, Rest
         result.setEmail(entity.getEmail());
         result.setTables((List<RestaurantTable>) entity.getTables());
         result.setId(entity.getId());
+        result.setPhone(entity.getPhoneNumber());
 
         return result;
     }

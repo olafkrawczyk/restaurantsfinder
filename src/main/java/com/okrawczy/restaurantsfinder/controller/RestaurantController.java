@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PostUpdate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,7 +87,32 @@ public class RestaurantController {
         }
 
         restaurantRepository.save(restaurant);
-        return ResponseEntity.ok("Added");
+        return ResponseEntity.ok(restaurant.getId());
+    }
+
+    @CrossOrigin
+    @PostMapping("/restaurants/{id}")
+    public ResponseEntity<?> updateRestaurant(@PathVariable(value = "id") Long id,
+                                              @RequestBody RestaurantTO requestRestaurant) {
+        Restaurant restaurant = this.restaurantRepository.findRestaurantById(id);
+
+        logger.info(requestRestaurant);
+
+        restaurant.setName(requestRestaurant.getName());
+        restaurant.setOpenHour(requestRestaurant.getOpenHour());
+        restaurant.setCloseHour(requestRestaurant.getCloseHour());
+        restaurant.setDescription(requestRestaurant.getDescription());
+        restaurant.setEmail(requestRestaurant.getEmail());
+        restaurant.setPhoneNumber(requestRestaurant.getPhone());
+        restaurant.setCuisine(requestRestaurant.getCuisine());
+        restaurant.setPhoto(requestRestaurant.getPhoto());
+        restaurant.getAddress().setCity(requestRestaurant.getAddress().getCity());
+        restaurant.getAddress().setPostalCode(requestRestaurant.getAddress().getPostalCode());
+        restaurant.getAddress().setStreet(requestRestaurant.getAddress().getStreet());
+
+        this.restaurantRepository.save(restaurant);
+
+        return ResponseEntity.ok("Updated");
     }
 
     @CrossOrigin
