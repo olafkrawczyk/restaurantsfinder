@@ -3,6 +3,7 @@ package com.okrawczy.restaurantsfinder.controller;
 import com.okrawczy.restaurantsfinder.domain.*;
 import com.okrawczy.restaurantsfinder.repository.*;
 import com.okrawczy.restaurantsfinder.controller.requestwrapper.RestaurantSearchParameters;
+import com.okrawczy.restaurantsfinder.service.RestaurantTableService;
 import com.okrawczy.restaurantsfinder.tos.RestaurantTO;
 import com.okrawczy.restaurantsfinder.utils.converters.RestaurantTOConverter;
 import com.okrawczy.restaurantsfinder.utils.converters.RestaurantToStubConverter;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +42,8 @@ public class RestaurantController {
     private MenuRepository menuRepository;
     @Autowired
     private MenuItemRepository menuItemRepository;
+    @Autowired
+    private RestaurantTableService restaurantTableService;
 
     @CrossOrigin
     @PostMapping("/restaurants/new")
@@ -99,6 +103,7 @@ public class RestaurantController {
         logger.info(searchParams);
         Cuisine requestCuisine = null;
         List<Restaurant> restaurants;
+        Date reservationDate = ReservationController.getDateFromISO(searchParams.getDate());
 
         for (Cuisine cuisine: Cuisine.values()) {
             if (cuisine.toString().equals(searchParams.getCuisine())) {
@@ -113,7 +118,13 @@ public class RestaurantController {
             restaurants = this.restaurantRepository
                     .findByAddress_CityIgnoreCase(searchParams.getCity());
 
-        List<RestaurantTO> results = restaurants.stream().map(e -> restaurantTOConverter.convertToTO(e)).collect(Collectors.toList());
+        List<Restaurant> temp = restaurants.stream()
+                .filter(e->!restaurantTableService.getFreeTablesTOs(e.getId(), searchParams.getPeople(), reservationDate).isEmpty())
+                .collect(Collectors.toList());
+
+        List<RestaurantTO> results = temp.stream().map(e -> restaurantTOConverter.convertToTO(e)).collect(Collectors.toList());
+
+
         return ResponseEntity.ok(results);
     }
 }

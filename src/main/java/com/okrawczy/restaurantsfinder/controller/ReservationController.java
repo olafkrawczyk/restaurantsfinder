@@ -161,7 +161,7 @@ public class ReservationController {
         return !reservation.getReservationStatus().equals(ReservationStatus.PENDING);
     }
 
-    private static Date getDateFromISO(String dateISO) {
+    public static Date getDateFromISO(String dateISO) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
         TemporalAccessor accessor = timeFormatter.parse(dateISO);
         return Date.from(Instant.from(accessor));
