@@ -11,8 +11,6 @@ import java.util.List;
  * Created by Olaf on 2017-10-09.
  */
 
-@CrossOrigin
-@RepositoryRestResource
 public interface ClientRepository extends PagingAndSortingRepository<Client, Long> {
     Client findClientById(Long id);
     Client findClientByEmailAddressIgnoreCase(String emailAddress);
