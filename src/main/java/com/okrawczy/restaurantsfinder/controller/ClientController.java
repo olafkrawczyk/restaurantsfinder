@@ -42,7 +42,7 @@ public class ClientController {
     }
 
     @CrossOrigin
-    @PostMapping("/clients/login")
+    @PostMapping("/clients/login_old")
     public ResponseEntity<?> loginUser(@RequestBody CredentialsWrapper credentials ){
         try {
             Client client = clientRepository.findClientByEmailAddressIgnoreCase(credentials.getEmailAddress());

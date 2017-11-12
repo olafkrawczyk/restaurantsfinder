@@ -1,9 +1,6 @@
 package com.okrawczy.restaurantsfinder.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -12,6 +9,7 @@ import java.util.Collection;
  * Created by Olaf on 2017-10-08.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Owner {
 
@@ -92,5 +90,13 @@ public class Owner {
 
     public Long getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return this.emailAddress;
+    }
+
+    public void setUsername(String email) {
+        this.emailAddress = email;
     }
 }

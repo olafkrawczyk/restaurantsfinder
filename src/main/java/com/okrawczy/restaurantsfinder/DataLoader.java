@@ -1,7 +1,9 @@
 package com.okrawczy.restaurantsfinder;
 
 import com.okrawczy.restaurantsfinder.domain.Client;
+import com.okrawczy.restaurantsfinder.domain.Owner;
 import com.okrawczy.restaurantsfinder.repository.ClientRepository;
+import com.okrawczy.restaurantsfinder.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -19,6 +21,9 @@ public class DataLoader implements ApplicationRunner {
     private ClientRepository clientRepository;
 
     @Autowired
+    private OwnerRepository ownerRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -30,5 +35,9 @@ public class DataLoader implements ApplicationRunner {
         String password = bCryptPasswordEncoder.encode("password");
         client.setPassword(password);
         clientRepository.save(client);
+
+        Owner owner = ownerRepository.findByEmailAddressIgnoreCase("john.doe@gmail.com");
+        owner.setPassword(bCryptPasswordEncoder.encode("password"));
+        ownerRepository.save(owner);
     }
 }

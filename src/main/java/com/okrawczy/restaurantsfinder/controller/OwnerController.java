@@ -45,7 +45,7 @@ public class OwnerController {
     }
 
     @CrossOrigin
-    @PostMapping("/owners/login")
+    @PostMapping("/owners/login_old")
     public ResponseEntity<?> loginOwner(@RequestBody CredentialsWrapper credentials ){
         try {
             Owner owner = ownerRepository.findByEmailAddressIgnoreCase(credentials.getEmailAddress());
