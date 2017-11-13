@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -32,6 +33,9 @@ public class OwnerController {
     @Autowired
     private RestaurantToStubConverter restaurantToStubConverter;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @CrossOrigin
     @PostMapping("/owners/new")
     public ResponseEntity<?> createNewOwner(@RequestBody Owner aOwner)
@@ -39,6 +43,9 @@ public class OwnerController {
         if (!ownerRepository.findByEmailAddress(aOwner.getEmailAddress()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Owner with given email address already exists");
         }
+        String password = aOwner.getPassword();
+        aOwner.setPassword(bCryptPasswordEncoder.encode(password));
+
         logger.info(aOwner);
         ownerRepository.save(aOwner);
         return ResponseEntity.ok("Owner created");

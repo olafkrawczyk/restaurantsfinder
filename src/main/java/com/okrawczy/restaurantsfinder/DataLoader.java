@@ -36,6 +36,9 @@ public class DataLoader implements ApplicationRunner {
         client.setPassword(password);
         clientRepository.save(client);
 
+        client = clientRepository.findClientByEmailAddressIgnoreCase("michalina.kowalska@gmail.com");
+        client.setPassword(bCryptPasswordEncoder.encode(client.getPassword()));
+
         Owner owner = ownerRepository.findByEmailAddressIgnoreCase("john.doe@gmail.com");
         owner.setPassword(bCryptPasswordEncoder.encode("password"));
         ownerRepository.save(owner);

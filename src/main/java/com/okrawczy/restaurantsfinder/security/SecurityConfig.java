@@ -3,6 +3,7 @@ package com.okrawczy.restaurantsfinder.security;
 import com.okrawczy.restaurantsfinder.service.ClientDetailsServiceImpl;
 import com.okrawczy.restaurantsfinder.service.OwnerDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,6 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 /**
  * Created by Olaf on 2017-11-10.
@@ -40,9 +46,9 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                    .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                    .addFilter(new JWTAuthorizationFilter(authenticationManager()));
                     // this disables session creation on Spring Security
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         }
 
@@ -84,8 +90,8 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .addFilterAfter(new JWTAuthenticationFilterOwner(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                    .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+                    //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         }
 
