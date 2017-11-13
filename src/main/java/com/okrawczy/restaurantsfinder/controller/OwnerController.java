@@ -52,21 +52,16 @@ public class OwnerController {
     }
 
     @CrossOrigin
-    @PostMapping("/owners/login_old")
-    public ResponseEntity<?> loginOwner(@RequestBody CredentialsWrapper credentials ){
+    @GetMapping("/owners/getByEmail")
+    public ResponseEntity<?> loginOwner(@RequestParam(value = "email") String email){
         try {
-            Owner owner = ownerRepository.findByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            Owner owner = ownerRepository.findByEmailAddressIgnoreCase(email);
             OwnerTO ownerTO = new OwnerTO();
             ownerTO.setId(owner.getId());
             ownerTO.setFirstName(owner.getFirstName());
             ownerTO.setLastName(owner.getLastName());
             ownerTO.setEmailAddress(owner.getEmailAddress());
-            if (!owner.getPassword().equals(credentials.getPassword())){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for owner " + owner.getEmailAddress());
-            }
-            else {
-                return ResponseEntity.ok(ownerTO);
-            }
+            return ResponseEntity.ok(ownerTO);
         }
         catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Owner with given email address not found");

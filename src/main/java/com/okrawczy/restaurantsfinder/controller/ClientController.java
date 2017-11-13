@@ -42,21 +42,15 @@ public class ClientController {
     }
 
     @CrossOrigin
-    @PostMapping("/clients/login_old")
-    public ResponseEntity<?> loginUser(@RequestBody CredentialsWrapper credentials ){
+    @GetMapping("/clients/getByEmail")
+    public ResponseEntity<?> loginUser(@RequestParam(value = "email") String emailAddress){
         try {
-            Client client = clientRepository.findClientByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            Client client = clientRepository.findClientByEmailAddressIgnoreCase(emailAddress);
             ClientTO clientTo = clientTOConverter.convertToTO(client);
-            if (!client.getPassword().equals(credentials.getPassword())){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for client " + client.getEmailAddress());
-            }
-            else {
-                return ResponseEntity.ok(clientTo);
-            }
+            return ResponseEntity.ok(clientTo);
         }
         catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client with given email address not found");
         }
     }
-
 }
