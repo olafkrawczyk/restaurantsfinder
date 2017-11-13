@@ -44,7 +44,7 @@ public class Client {
     }
 
     public String getUsername(){
-        return this.password;
+        return this.emailAddress;
     }
 
     public void setUsername(String email) {

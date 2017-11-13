@@ -62,6 +62,7 @@ public class JWTAuthenticationFilterOwner extends AbstractAuthenticationProcessi
 
         String token = Jwts.builder()
                 .setSubject(((User) auth.getPrincipal()).getUsername())
+                .claim("owner", "true")
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();
