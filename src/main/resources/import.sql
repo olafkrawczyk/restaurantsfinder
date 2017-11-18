@@ -8,9 +8,9 @@ insert into owner (address_id, email_address, first_name, last_name, id, passwor
 insert into client (address_id, email_address, first_name, last_name, id, password) values (1 , 'michalina.kowalska@gmail.com', 'Michalina', 'Kowalska',  1, 'password');
 
 
-insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id, description) values (1, 'ITALIAN', 'Pastini', 1, '71 12345', 1, 'Fun italian restaurant');
-insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id) values (2, 'FUSION', 'Seven', 1, '22 12345', 2);
-insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id) values (3, 'THAI', 'Woo Thai', 2, '22 12345', 3);
+insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id, description, open_hour, close_hour, ) values (1, 'ITALIAN', 'Pastini', 1, '71 12345', 1, 'Fun italian restaurant', '07:00', '20:00');
+insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id, open_hour, close_hour) values (2, 'FUSION', 'Seven', 1, '22 12345', 2, '07:00', '20:00');
+insert into restaurant (address_id, cuisine, name, owner_id, phone_number, id, open_hour, close_hour) values (3, 'THAI', 'Woo Thai', 2, '22 12345', 3, '07:00', '20:00');
 
 insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (1 , 2, 1, 'A1');
 insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (1 , 2, 2, 'A2');
