@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -32,6 +33,9 @@ public class OwnerController {
     @Autowired
     private RestaurantToStubConverter restaurantToStubConverter;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @CrossOrigin
     @PostMapping("/owners/new")
     public ResponseEntity<?> createNewOwner(@RequestBody Owner aOwner)
@@ -39,27 +43,25 @@ public class OwnerController {
         if (!ownerRepository.findByEmailAddress(aOwner.getEmailAddress()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Owner with given email address already exists");
         }
+        String password = aOwner.getPassword();
+        aOwner.setPassword(bCryptPasswordEncoder.encode(password));
+
         logger.info(aOwner);
         ownerRepository.save(aOwner);
         return ResponseEntity.ok("Owner created");
     }
 
     @CrossOrigin
-    @PostMapping("/owners/login")
-    public ResponseEntity<?> loginOwner(@RequestBody CredentialsWrapper credentials ){
+    @GetMapping("/owners/getByEmail")
+    public ResponseEntity<?> loginOwner(@RequestParam(value = "email") String email){
         try {
-            Owner owner = ownerRepository.findByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            Owner owner = ownerRepository.findByEmailAddressIgnoreCase(email);
             OwnerTO ownerTO = new OwnerTO();
             ownerTO.setId(owner.getId());
             ownerTO.setFirstName(owner.getFirstName());
             ownerTO.setLastName(owner.getLastName());
             ownerTO.setEmailAddress(owner.getEmailAddress());
-            if (!owner.getPassword().equals(credentials.getPassword())){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for owner " + owner.getEmailAddress());
-            }
-            else {
-                return ResponseEntity.ok(ownerTO);
-            }
+            return ResponseEntity.ok(ownerTO);
         }
         catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Owner with given email address not found");

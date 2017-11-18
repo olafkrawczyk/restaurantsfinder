@@ -1,5 +1,8 @@
 package com.okrawczy.restaurantsfinder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -8,6 +11,7 @@ import java.util.Collection;
  */
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Client {
 
     @Id
@@ -37,6 +41,14 @@ public class Client {
     private Collection<Reservation> reservations;
 
     public Client() {
+    }
+
+    public String getUsername(){
+        return this.emailAddress;
+    }
+
+    public void setUsername(String email) {
+        this.emailAddress = email;
     }
 
     public Collection<Reservation> getReservations() {

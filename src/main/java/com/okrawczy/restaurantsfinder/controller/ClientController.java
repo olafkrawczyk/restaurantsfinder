@@ -8,6 +8,7 @@ import com.okrawczy.restaurantsfinder.utils.converters.ClientTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,6 +24,9 @@ public class ClientController {
     @Autowired
     private ClientTOConverter clientTOConverter;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @CrossOrigin
     @PostMapping("/clients/new")
     public ResponseEntity<?> createNewClient(@RequestBody Client aClient)
@@ -30,26 +34,23 @@ public class ClientController {
         if (!clientRepository.findByEmailAddress(aClient.getEmailAddress()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Client with given email address already exists");
         }
+        String password = aClient.getPassword();
+        aClient.setPassword(bCryptPasswordEncoder.encode(password));
+
         clientRepository.save(aClient);
         return ResponseEntity.ok("Client created");
     }
 
     @CrossOrigin
-    @PostMapping("/clients/login")
-    public ResponseEntity<?> loginUser(@RequestBody CredentialsWrapper credentials ){
+    @GetMapping("/clients/getByEmail")
+    public ResponseEntity<?> loginUser(@RequestParam(value = "email") String emailAddress){
         try {
-            Client client = clientRepository.findClientByEmailAddressIgnoreCase(credentials.getEmailAddress());
+            Client client = clientRepository.findClientByEmailAddressIgnoreCase(emailAddress);
             ClientTO clientTo = clientTOConverter.convertToTO(client);
-            if (!client.getPassword().equals(credentials.getPassword())){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong password for client " + client.getEmailAddress());
-            }
-            else {
-                return ResponseEntity.ok(clientTo);
-            }
+            return ResponseEntity.ok(clientTo);
         }
         catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client with given email address not found");
         }
     }
-
 }
