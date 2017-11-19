@@ -96,20 +96,34 @@ public class ReservationController {
     }
 
     @CrossOrigin
+    @GetMapping("/reservations/restaurant/{id}")
+    public ResponseEntity<?> getReservationsByRestaurant(@PathVariable(value = "id") Long id) {
+        List<Reservation> reservations = reservationRepository.findReservationsByRestaurant_Id(id);
+        List<ReservationTO> result = reservations.stream()
+                .map(p -> reservationTOConverter.convertToTO(p))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
+
+    @CrossOrigin
     @PostMapping("/reservations/accept")
     public ResponseEntity<?> acceptReservation(@RequestParam(value = "reservationId") Long reservationId) {
         Reservation reservation = this.reservationRepository.findReservationById(reservationId);
 
-        if (checkIfAbleToChange(reservation)) return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body("Reservation [" + reservation.getId() + "] status: "
-                        + reservation.getReservationStatus() + " cannot be changed");
+        if (reservation.getReservationStatus().equals(ReservationStatus.REJECTED) ||
+                reservation.getReservationStatus().equals(ReservationStatus.PENDING)) {
 
-        reservation.setReservationStatus(ReservationStatus.ACCEPTED);
-        reservationRepository.save(reservation);
+            reservation.setReservationStatus(ReservationStatus.ACCEPTED);
+            reservationRepository.save(reservation);
+            logger.info("Reservation [" + reservationId + "] accepted");
 
-        logger.info("Reservation ["+reservationId+"] accepted");
-
-        return ResponseEntity.ok("Reservation "+ reservationId + " accepted");
+            return ResponseEntity.ok("Reservation " + reservationId + " accepted");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Reservation [" + reservation.getId() + "] status: "
+                            + reservation.getReservationStatus() + " cannot be changed");
+        }
     }
 
     @CrossOrigin
@@ -117,33 +131,36 @@ public class ReservationController {
     public ResponseEntity<?> rejectReservation(@RequestParam(value = "reservationId") Long reservationId) {
         Reservation reservation = this.reservationRepository.findReservationById(reservationId);
 
-        if (checkIfAbleToChange(reservation)) return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body("Reservation Status: " + reservation.getReservationStatus() + " cannot be changed");
+        if (reservation.getReservationStatus().equals(ReservationStatus.ACCEPTED) ||
+                reservation.getReservationStatus().equals(ReservationStatus.PENDING)) {
+            reservation.setReservationStatus(ReservationStatus.REJECTED);
+            reservationRepository.save(reservation);
+            logger.info("Reservation [" + reservationId + "] rejected");
 
-        reservation.setReservationStatus(ReservationStatus.REJECTED);
-        reservationRepository.save(reservation);
-
-        logger.info("Reservation ["+reservationId+"] rejected");
-
-        return ResponseEntity.ok("Reservation "+ reservationId + " rejected");
+            return ResponseEntity.ok("Reservation " + reservationId + " rejected");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Reservation Status: " + reservation.getReservationStatus() + " cannot be changed");
+        }
     }
 
     @CrossOrigin
     @PostMapping("/reservations/cancel")
-    public ResponseEntity<?> cancelReservation(@RequestParam(value = "reservationId") Long reservationId){
+    public ResponseEntity<?> cancelReservation(@RequestParam(value = "reservationId") Long reservationId) {
         Reservation reservation = this.reservationRepository.findReservationById(reservationId);
 
         if (reservation.getReservationStatus().equals(ReservationStatus.OBSOLETE) ||
                 reservation.getReservationStatus().equals(ReservationStatus.CANCELED) ||
-                reservation.getReservationStatus().equals(ReservationStatus.REJECTED)) return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body("Reservation Status: " + reservation.getReservationStatus() + " cannot be changed");
+                reservation.getReservationStatus().equals(ReservationStatus.REJECTED))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Reservation Status: " + reservation.getReservationStatus() + " cannot be changed");
 
         reservation.setReservationStatus(ReservationStatus.CANCELED);
         reservationRepository.save(reservation);
 
-        logger.info("Reservation ["+reservationId+"] cancelled");
+        logger.info("Reservation [" + reservationId + "] cancelled");
 
-        return ResponseEntity.ok("Reservation "+ reservationId + " cancelled");
+        return ResponseEntity.ok("Reservation " + reservationId + " cancelled");
     }
 
     @CrossOrigin
@@ -151,10 +168,10 @@ public class ReservationController {
     public ResponseEntity<?> getUserReservations(@PathVariable("id") long id) {
         List<Reservation> userReservations = this.reservationRepository.findReservationsByClientId(id);
         List<ReservationTO> reservations = userReservations.stream()
-                .map(e->reservationTOConverter.convertToTO(e))
+                .map(e -> reservationTOConverter.convertToTO(e))
                 .collect(Collectors.toList());
 
-        return  ResponseEntity.ok(reservations);
+        return ResponseEntity.ok(reservations);
     }
 
     private boolean checkIfAbleToChange(Reservation reservation) {
