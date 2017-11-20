@@ -42,7 +42,8 @@ public class StatusManagerTask {
         Date todayEnd = calendar.getTime();
         Date now = new Date();
 
-        List<Reservation> reservations = this.reservationRepository.findByReservationDateAfterAndReservationDateBefore(todayStart, todayEnd);
+        List<Reservation> reservations = this.reservationRepository
+                .findByReservationDateAfterAndReservationDateBeforeAndReservationStatus(todayStart, todayEnd, ReservationStatus.ACCEPTED);
 
         for (Reservation reservation: reservations) {
             if ((reservation.getReservationDate().getTime() + ((long)Reservation.TIME_SLOT_DURATION)*3600*1000) <= now.getTime()){

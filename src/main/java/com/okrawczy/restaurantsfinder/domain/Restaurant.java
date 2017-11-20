@@ -162,4 +162,8 @@ public class Restaurant {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
