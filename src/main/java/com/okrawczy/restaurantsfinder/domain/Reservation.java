@@ -12,6 +12,8 @@ import java.util.Date;
 @Entity
 public class Reservation {
 
+    public static int TIME_SLOT_DURATION = 2;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -100,8 +102,14 @@ public class Reservation {
         this.table = table;
     }
 
-    public boolean isReserved(){
+    public boolean isActive(){
         return reservationStatus.equals(ReservationStatus.ACCEPTED) || reservationStatus.equals(ReservationStatus.PENDING);
+    }
+
+    public boolean intersects(Date date) {
+        long duration = ((long) Reservation.TIME_SLOT_DURATION) * 3600 *1000;
+        return this.getReservationDate().getTime() <= date.getTime()+duration
+                && date.getTime() <= this.getReservationDate().getTime() + duration;
     }
 
     public Long getId() {

@@ -110,6 +110,15 @@ public class RestaurantController {
         restaurant.getAddress().setPostalCode(requestRestaurant.getAddress().getPostalCode());
         restaurant.getAddress().setStreet(requestRestaurant.getAddress().getStreet());
 
+        this.menuItemRepository.deleteAll(restaurant.getMenu().getMenuItems());
+
+        Menu menu = restaurant.getMenu();
+
+        for(MenuItem menuItem: requestRestaurant.getMenuItems()) {
+            menuItem.setMenu(menu);
+            menuItemRepository.save(menuItem);
+        }
+
         this.restaurantRepository.save(restaurant);
 
         return ResponseEntity.ok("Updated");

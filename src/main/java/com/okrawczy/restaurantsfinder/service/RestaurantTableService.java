@@ -1,7 +1,6 @@
 package com.okrawczy.restaurantsfinder.service;
 
 import com.okrawczy.restaurantsfinder.domain.Reservation;
-import com.okrawczy.restaurantsfinder.domain.ReservationStatus;
 import com.okrawczy.restaurantsfinder.domain.Restaurant;
 import com.okrawczy.restaurantsfinder.domain.RestaurantTable;
 import com.okrawczy.restaurantsfinder.repository.ReservationRepository;
@@ -11,15 +10,8 @@ import com.okrawczy.restaurantsfinder.tos.RestaurantTableTO;
 import com.okrawczy.restaurantsfinder.utils.converters.RestaurantTableToTOConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -57,8 +49,6 @@ public class RestaurantTableService {
         int closeMinutes = Integer.valueOf(restaurant.getCloseHour().substring(3, 5));
 
         logger.info(openHour + ":" + openMinutes + " - " + closeHour + ":" + closeMinutes);
-
-
         logger.info("Restaurant id: " + restaurantId);
         logger.info("Seats: " + seats);
         logger.info("Date: " + date);
@@ -81,11 +71,17 @@ public class RestaurantTableService {
                 findByReservationDateAfterAndReservationDateBeforeAndRestaurant_IdAndTable_Seats(dateOpen, dateClose, restaurantId, seats);
 
         List<RestaurantTable> restaurantTables = this.restaurantTableRepository.findByRestaurant_IdAndSeats(restaurantId, seats);
-        List<RestaurantTable> reservedTables = reservations.stream().filter(Reservation::isReserved).map(Reservation::getTable).collect(Collectors.toList());
+        List<RestaurantTable> reservedTables = reservations.stream()
+                .filter(Reservation::isActive)
+                .filter(e -> e.intersects(date))
+                .map(Reservation::getTable).collect(Collectors.toList());
 
         restaurantTables.removeAll(reservedTables);
 
-        List<RestaurantTableTO> result = restaurantTables.stream().map(p -> restaurantTableToTOConverter.convertToTO(p)).collect(Collectors.toList());
+        List<RestaurantTableTO> result = restaurantTables.stream()
+                .map(p -> restaurantTableToTOConverter.convertToTO(p))
+                .collect(Collectors.toList());
+
         logger.info(restaurantTables);
 
         return result;
