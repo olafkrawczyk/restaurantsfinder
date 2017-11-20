@@ -149,7 +149,7 @@ public class ReservationController {
     public ResponseEntity<?> cancelReservation(@RequestParam(value = "reservationId") Long reservationId) {
         Reservation reservation = this.reservationRepository.findReservationById(reservationId);
 
-        if (reservation.getReservationStatus().equals(ReservationStatus.OBSOLETE) ||
+        if (reservation.getReservationStatus().equals(ReservationStatus.CLOSED) ||
                 reservation.getReservationStatus().equals(ReservationStatus.CANCELED) ||
                 reservation.getReservationStatus().equals(ReservationStatus.REJECTED))
             return ResponseEntity.status(HttpStatus.FORBIDDEN)

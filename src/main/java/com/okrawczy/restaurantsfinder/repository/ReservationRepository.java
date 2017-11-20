@@ -18,6 +18,7 @@ public interface ReservationRepository extends PagingAndSortingRepository<Reserv
 
     List<Reservation> findByReservationDateAfterAndReservationDateBeforeAndRestaurant_IdAndTable_Seats(Date afterDate, Date beforeDate, Long restaurantId, int tableSeats);
     List<Reservation> findByReservationStatusAndRestaurant_Id(ReservationStatus status, Long restaurantId);
+    List<Reservation> findByReservationDateAfterAndReservationDateBefore(Date afterDate, Date beforeDate);
     Reservation findReservationById(Long id);
 
     List<Reservation> findReservationsByClientId(long id);
