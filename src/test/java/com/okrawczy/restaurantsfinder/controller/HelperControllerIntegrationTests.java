@@ -4,9 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +23,13 @@ import org.springframework.test.web.servlet.MockMvc;
 public class HelperControllerIntegrationTests {
 
     @Autowired
-    private
-    MockMvc mvc;
+    private MockMvc mvc;
 
     @Test
     public void getAllCitiestTest() {
         try {
-            mvc.perform(get("/restaurantsCities")).andDo(print()).andExpect(content().json("[\"Wroclaw\",\"Warszawa\",\"Katowice\"]"));
+            mvc.perform(get("/restaurantsCities")).andDo(print())
+                    .andExpect(content().json("[\"Wroclaw\",\"Warszawa\",\"Katowice\"]"));
         } catch (Exception e) {
             e.printStackTrace();
         }

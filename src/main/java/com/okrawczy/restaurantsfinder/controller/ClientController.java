@@ -34,6 +34,10 @@ public class ClientController {
         if (!clientRepository.findByEmailAddress(aClient.getEmailAddress()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Client with given email address already exists");
         }
+
+        if(aClient.getPassword().isEmpty() || aClient.getEmailAddress().isEmpty())
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email and password are required");
+
         String password = aClient.getPassword();
         aClient.setPassword(bCryptPasswordEncoder.encode(password));
 

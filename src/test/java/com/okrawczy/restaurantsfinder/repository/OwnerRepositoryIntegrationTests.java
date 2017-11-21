@@ -1,4 +1,4 @@
-package com.okrawczy.restaurantsfinder.controller;
+package com.okrawczy.restaurantsfinder.repository;
 
 import com.okrawczy.restaurantsfinder.domain.Owner;
 import com.okrawczy.restaurantsfinder.repository.OwnerRepository;
