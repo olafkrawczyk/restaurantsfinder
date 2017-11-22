@@ -16,11 +16,11 @@ import java.util.Date;
 
 public class RestaurantTableServiceUnitTests {
 
-    private static DateFormat format;
+    private static DateFormat formatter;
 
     @Before
     public void setFormat() {
-        format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
     }
 
     @Test
@@ -29,9 +29,9 @@ public class RestaurantTableServiceUnitTests {
         Date end = null;
         Date target = null;
         try {
-            start = format.parse("2017-10-19 07:00");
-            end = format.parse("2017-10-19 20:00");
-            target = format.parse("2017-10-19 10:00");
+            start = formatter.parse("2017-10-19 07:00");
+            end = formatter.parse("2017-10-19 20:00");
+            target = formatter.parse("2017-10-19 10:00");
         } catch (ParseException e) {
             Assert.fail("Parse error");
             e.printStackTrace();
@@ -45,9 +45,9 @@ public class RestaurantTableServiceUnitTests {
         Date end = null;
         Date target = null;
         try {
-            start = format.parse("2017-10-19 07:00");
-            end = format.parse("2017-10-19 20:00");
-            target = format.parse("2017-10-19 07:00");
+            start = formatter.parse("2017-10-19 07:00");
+            end = formatter.parse("2017-10-19 20:00");
+            target = formatter.parse("2017-10-19 07:00");
         } catch (ParseException e) {
             Assert.fail("Parse error");
             e.printStackTrace();
@@ -61,9 +61,9 @@ public class RestaurantTableServiceUnitTests {
         Date end = null;
         Date target = null;
         try {
-            start = format.parse("2017-10-19 07:00");
-            end = format.parse("2017-10-19 20:00");
-            target = format.parse("2017-10-19 20:00");
+            start = formatter.parse("2017-10-19 07:00");
+            end = formatter.parse("2017-10-19 20:00");
+            target = formatter.parse("2017-10-19 20:00");
         } catch (ParseException e) {
             Assert.fail("Parse error");
             e.printStackTrace();
@@ -77,9 +77,9 @@ public class RestaurantTableServiceUnitTests {
         Date end = null;
         Date target = null;
         try {
-            start = format.parse("2017-10-19 07:00");
-            end = format.parse("2017-10-19 20:00");
-            target = format.parse("2017-10-19 06:00");
+            start = formatter.parse("2017-10-19 07:00");
+            end = formatter.parse("2017-10-19 20:00");
+            target = formatter.parse("2017-10-19 06:00");
         } catch (ParseException e) {
             Assert.fail("Parse error");
             e.printStackTrace();
@@ -93,9 +93,9 @@ public class RestaurantTableServiceUnitTests {
         Date end = null;
         Date target = null;
         try {
-            start = format.parse("2017-10-19 07:00");
-            end = format.parse("2017-10-19 20:00");
-            target = format.parse("2017-10-19 21:00");
+            start = formatter.parse("2017-10-19 07:00");
+            end = formatter.parse("2017-10-19 20:00");
+            target = formatter.parse("2017-10-19 21:00");
         } catch (ParseException e) {
             Assert.fail("Parse error");
             e.printStackTrace();
