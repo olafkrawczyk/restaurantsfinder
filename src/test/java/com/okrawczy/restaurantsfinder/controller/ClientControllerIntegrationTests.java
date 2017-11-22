@@ -9,8 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -69,5 +71,23 @@ public class ClientControllerIntegrationTests {
         mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content("" +
                 "{\"username\": \"michalina.kowalska@gmail.com\"," +
                 "\"password\": \"invalid\"}")).andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getLoggedUserData() {
+        try {
+            MvcResult result = mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content("" +
+                    "{\"username\": \"michalina.kowalska@gmail.com\"," +
+                    "\"password\": \"password\"}")).andReturn();
+            String token = result.getResponse().getHeader("Authorization");
+            Assert.assertNotNull(token);
+
+            mvc.perform(get("/clients/getByEmail")
+                    .header("Authorization", token).param("email", "michalina.kowalska@gmail.com"))
+                    .andExpect(status().is2xxSuccessful());
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
