@@ -7,7 +7,7 @@ public class RestaurantTableTO {
 
     private Long id;
     private Long restaurantId;
-    private int seats;
+    private Integer seats;
     private String restaurantTableId;
 
     public Long getId() {
@@ -26,11 +26,11 @@ public class RestaurantTableTO {
         this.restaurantId = restaurantId;
     }
 
-    public int getSeats() {
+    public Integer getSeats() {
         return seats;
     }
 
-    public void setSeats(int seats) {
+    public void setSeats(Integer seats) {
         this.seats = seats;
     }
 
