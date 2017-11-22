@@ -70,7 +70,8 @@ public class RestaurantTableService {
         List<Reservation> reservations = this.reservationRepository.
                 findByReservationDateAfterAndReservationDateBeforeAndRestaurant_IdAndTable_Seats(dateOpen, dateClose, restaurantId, seats);
 
-        List<RestaurantTable> restaurantTables = this.restaurantTableRepository.findByRestaurant_IdAndSeats(restaurantId, seats);
+        List<RestaurantTable> restaurantTables = this.restaurantTableRepository.findByRestaurant_IdAndSeats(restaurantId, seats)
+                .stream().filter(e->!e.isDeleted()).collect(Collectors.toList());
         List<RestaurantTable> reservedTables = reservations.stream()
                 .filter(Reservation::isActive)
                 .filter(e -> e.intersects(date))
