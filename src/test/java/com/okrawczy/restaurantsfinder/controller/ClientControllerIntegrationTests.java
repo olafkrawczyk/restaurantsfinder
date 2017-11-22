@@ -10,9 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by Olaf on 2017-11-21.
@@ -58,4 +57,17 @@ public class ClientControllerIntegrationTests {
     }
 
     //Test Login
+    @Test
+    public void loginRegisteredUserCorrectCredentials() throws Exception {
+        mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content("" +
+                "{\"username\": \"michalina.kowalska@gmail.com\"," +
+                "\"password\": \"password\"}")).andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void loginRegisteredUserInvalidPassword() throws Exception {
+        mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content("" +
+                "{\"username\": \"michalina.kowalska@gmail.com\"," +
+                "\"password\": \"invalid\"}")).andExpect(status().is4xxClientError());
+    }
 }
