@@ -87,7 +87,7 @@ public class RestaurantTableService {
         return result;
     }
 
-    boolean isBetweenInclusive(Date start, Date end, Date target) {
+    public static boolean isBetweenInclusive(Date start, Date end, Date target) {
         return !target.before(start) && !target.after(end);
     }
 }
