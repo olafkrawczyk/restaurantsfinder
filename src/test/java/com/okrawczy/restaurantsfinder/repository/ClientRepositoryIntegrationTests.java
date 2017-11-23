@@ -23,10 +23,10 @@ public class ClientRepositoryIntegrationTests {
 
     @Test
     public void addCorrectClient() {
-        String emailAddress = "john.doe@example.com";
+        String emailAddress = "mark.doe@example.com";
 
         Client testClient = new Client();
-        testClient.setFirstName("John");
+        testClient.setFirstName("Mark");
         testClient.setLastName("Doe");
         testClient.setEmailAddress(emailAddress);
         testClient.setPassword("pass1234");
