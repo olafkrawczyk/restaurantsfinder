@@ -64,7 +64,7 @@ public class RestaurantTableController {
 
         table.setDeleted(true);
         restaurantTableRepository.save(table);
-        log.info("Table [" + id + "] deleted");
+        log.info("Table [" + table.getRestaurantTableId() + "] deleted");
 
         return ResponseEntity.ok("Table [" + id + "] deleted");
     }
