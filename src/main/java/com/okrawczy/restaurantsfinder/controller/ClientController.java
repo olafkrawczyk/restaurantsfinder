@@ -47,7 +47,7 @@ public class ClientController {
 
     @CrossOrigin
     @GetMapping("/clients/getByEmail")
-    public ResponseEntity<?> loginUser(@RequestParam(value = "email") String emailAddress){
+    public ResponseEntity<?> getUser(@RequestParam(value = "email") String emailAddress){
         try {
             Client client = clientRepository.findClientByEmailAddressIgnoreCase(emailAddress);
             ClientTO clientTo = clientTOConverter.convertToTO(client);
