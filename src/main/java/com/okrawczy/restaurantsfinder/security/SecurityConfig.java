@@ -42,7 +42,10 @@ public class SecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             http.cors().and().csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/clients/new", "/login", "/restaurantsCities", "/availableCuisines").permitAll()
+                    .antMatchers("/clients/new", "/login",
+                            "/restaurantsCities", "/availableCuisines",
+                            "/restaurants/findByParameters",
+                            "/restaurants/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .addFilter(new JWTAuthenticationFilter(authenticationManager()))
