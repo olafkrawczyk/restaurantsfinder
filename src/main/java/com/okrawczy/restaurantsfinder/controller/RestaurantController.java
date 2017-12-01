@@ -114,6 +114,16 @@ public class RestaurantController {
 
         Menu menu = restaurant.getMenu();
 
+        if(menu == null) {
+            menu = new Menu();
+            menu.setRestaurant(restaurant);
+            menuRepository.save(menu);
+
+            restaurant.setMenu(menu);
+        } else {
+            this.menuItemRepository.deleteAll(restaurant.getMenu().getMenuItems());
+        }
+
         for(MenuItem menuItem: requestRestaurant.getMenuItems()) {
             menuItem.setMenu(menu);
             menuItemRepository.save(menuItem);
