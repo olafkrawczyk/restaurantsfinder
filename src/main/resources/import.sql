@@ -22,7 +22,7 @@ insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) val
 insert into restaurant_table (restaurant_id, seats, id, restaurant_table_id) values (3 , 4, 6, 'C2');
 
 insert into menu(id) values (1);
-insert into menu_item(id, description, dish_name, price, menu_id) values (1,'Smoked salmon with bitroot', 'Smoked salmon', 22.0, 1);
+insert into menu_item(id, description, dish_name, price, menu_id) values (1,'Smoked salmon with beetroot', 'Smoked salmon', 22.0, 1);
 insert into menu_item(id, description, dish_name, price, menu_id) values (2,'Beef burger, french fries', 'Classic burger', 12.0, 1);
 insert into menu_item(id, description, dish_name, price, menu_id) values (3,'Spagetti carbonara served with garlic olive oil', 'Carbonara', 20.50, 1);
 insert into menu_item(id, description, dish_name, price, menu_id) values (4,'Pulled pork with sweet-sour paprika', 'Pulled pork', 18.0, 1);

@@ -1,6 +1,7 @@
 package com.okrawczy.restaurantsfinder.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -22,6 +23,9 @@ public class RestaurantTable {
     private Restaurant restaurant;
     private Integer seats;
     private String restaurantTableId;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean deleted = false;
 
     public RestaurantTable() {
     }
@@ -75,5 +79,13 @@ public class RestaurantTable {
         result = 31 * result + (seats != null ? seats.hashCode() : 0);
         result = 31 * result + (restaurantTableId != null ? restaurantTableId.hashCode() : 0);
         return result;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

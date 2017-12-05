@@ -7,6 +7,7 @@ import com.okrawczy.restaurantsfinder.tos.RestaurantTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Olaf on 2017-10-28.
@@ -27,7 +28,10 @@ public class RestaurantTOConverter implements DomainTOConverter<Restaurant, Rest
         result.setOpenHour(entity.getOpenHour());
         result.setCuisine(entity.getCuisine());
         result.setEmail(entity.getEmail());
-        result.setTables((List<RestaurantTable>) entity.getTables());
+
+        List<RestaurantTable> activeTables = entity.getTables().stream().filter(e-> !e.isDeleted()).collect(Collectors.toList());
+
+        result.setTables(activeTables);
         result.setId(entity.getId());
         result.setPhone(entity.getPhoneNumber());
 

@@ -14,6 +14,5 @@ import java.util.List;
 public interface ClientRepository extends PagingAndSortingRepository<Client, Long> {
     Client findClientById(Long id);
     Client findClientByEmailAddressIgnoreCase(String emailAddress);
-
     List<Client> findByEmailAddress(String emailAddress);
 }
