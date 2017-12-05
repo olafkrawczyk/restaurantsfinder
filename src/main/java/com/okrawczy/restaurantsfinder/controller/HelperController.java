@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Olaf on 2017-11-08.
@@ -32,7 +29,7 @@ public class HelperController {
     @CrossOrigin
     @GetMapping("/restaurantsCities")
     public ResponseEntity<?> getRestaurantCities() {
-        List<String> cities = new LinkedList<>();
+        LinkedHashSet<String> cities = new LinkedHashSet<>();
 
         for (Restaurant restaurant : restaurantRepository.findAll()) {
             cities.add(restaurant.getAddress().getCity());

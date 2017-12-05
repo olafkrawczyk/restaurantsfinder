@@ -62,7 +62,7 @@ public class ClientControllerIntegrationTests {
     @Test
     public void loginRegisteredUserCorrectCredentials() throws Exception {
         mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content("" +
-                "{\"username\": \"michalina.kowalska@gmail.com\"," +
+                "{\"username\": \"jan.kowalski@gmail.com\"," +
                 "\"password\": \"password\"}")).andExpect(status().is2xxSuccessful());
     }
 
