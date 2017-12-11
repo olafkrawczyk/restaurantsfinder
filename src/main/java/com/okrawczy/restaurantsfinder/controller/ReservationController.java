@@ -51,7 +51,8 @@ public class ReservationController {
     @CrossOrigin
     @PostMapping("/reservations/makeReservation")
     public ResponseEntity<?> makeReservation(@RequestBody ReservationRequestWrapper request) {
-
+    
+        
 
         Reservation reservation = new Reservation();
         Client client = clientRepository.findClientByEmailAddressIgnoreCase(request.getClientEmailAddress());
@@ -59,6 +60,13 @@ public class ReservationController {
         Date reservationDate = getDateFromISO(request.getReservationDateISO());
         RestaurantTable table = restaurantTableRepository.findTableById(request.getTableId());
 
+        boolean tableStillFree = restaurantTableService.getFreeTablesTOs(restaurant.getId(), table.getSeats(), reservationDate)
+                .stream().anyMatch(t -> t.getId().equals(table.getId()));
+
+        if (!tableStillFree) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Table already reserved. Please choose different one.");
+        }
+        
         reservation.setCreationDate(new Date());
         reservation.setClient(client);
         reservation.setRestaurant(restaurant);
