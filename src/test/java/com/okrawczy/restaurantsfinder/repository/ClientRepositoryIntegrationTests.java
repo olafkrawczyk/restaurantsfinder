@@ -33,10 +33,6 @@ public class ClientRepositoryIntegrationTests {
 
         Assert.assertNull(clientRepository.findClientByEmailAddressIgnoreCase(emailAddress));
         clientRepository.save(testClient);
-
-        Client clientFromDB = clientRepository.findClientByEmailAddressIgnoreCase(emailAddress);
-        Assert.assertEquals(testClient.getEmailAddress(), clientFromDB.getEmailAddress());
-        clientRepository.delete(clientFromDB);
     }
 
 

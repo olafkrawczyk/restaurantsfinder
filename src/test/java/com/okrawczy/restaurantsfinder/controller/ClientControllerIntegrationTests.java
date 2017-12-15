@@ -1,6 +1,7 @@
 package com.okrawczy.restaurantsfinder.controller;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ClientControllerIntegrationTests {
     @Autowired
     private MockMvc mvc;
 
+    @Ignore
     @Test
     public void registerClientTest() {
         try {
@@ -62,7 +64,7 @@ public class ClientControllerIntegrationTests {
     @Test
     public void loginRegisteredUserCorrectCredentials() throws Exception {
         mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content("" +
-                "{\"username\": \"jan.kowalski@gmail.com\"," +
+                "{\"username\": \"michalina.kowalska@gmail.com\"," +
                 "\"password\": \"password\"}")).andExpect(status().is2xxSuccessful());
     }
 

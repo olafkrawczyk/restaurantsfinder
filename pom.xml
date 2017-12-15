@@ -120,5 +120,12 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<distributionManagement>
+		<repository>
+			<id>tablersv</id>
+			<layout>default</layout>
+			<url>file://</url>
+		</repository>
+	</distributionManagement>
 
 </project>
